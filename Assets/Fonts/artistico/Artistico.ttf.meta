@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: af00c29ab3134d74382abdcc44817d7e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Artistico
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 7a2d795e5921f4143b0617402b75c580, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

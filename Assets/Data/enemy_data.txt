@@ -1,0 +1,25 @@
+{
+	"Enemies": [
+		{
+			"NameText": "Grinch",
+			"Level": 12,
+			"max_Health": 350,
+			"Power": 50,
+			"Initiative": 2									
+		},
+		{
+			"NameText": "Toy",
+			"Level": 0,
+			"max_Health": 100,
+			"Power": 20,
+			"Initiative": 5
+		},
+		{
+			"NameText": "Monster",
+			"Level": 0,
+			"max_Health": 100,
+			"Power": 35,
+			"Initiative": 3
+		}
+	]
+}

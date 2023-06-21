@@ -1,0 +1,34 @@
+{
+	"Abilities": [
+		{
+			"name": "Basic Attack",
+			"energy": 0,
+			"power": 2,
+			"castTime": 1,
+			"videoName": null,
+			"multitarget": false,
+			"allytarget": false,
+			"attackTypeName": "Hack"
+		},
+		{
+			"name": "Winter's Breath",
+			"energy": 5,
+			"power": 5,
+			"castTime": 0,
+			"videoName": null,
+			"multitarget": false,
+			"allytarget": false,
+			"attackTypeName": "Hack"
+		},
+		{
+			"name": "Sleigh Summon",
+			"energy": 8,
+			"power": 3,
+			"castTime": 0,
+			"videoName": null,
+			"multitarget": false,
+			"allytarget": false,
+			"attackTypeName": "Hack"
+		}
+	]
+}

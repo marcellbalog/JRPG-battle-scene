@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hack Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: 7b1de06df2885f644b362d530685fdc2, type: 3}
+    - {fileID: 21300000, guid: 22c644b6d424b3a45bb9244483bd14e6, type: 3}
+    - {fileID: 21300000, guid: 3e2e13ac69b44494a8584a9e09ebdc0c, type: 3}
+    - {fileID: 21300000, guid: 8ccdc12f6b4cfe24c99be54baa34ef70, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 22c644b6d424b3a45bb9244483bd14e6, type: 3}
+  - {fileID: 21300000, guid: 3e2e13ac69b44494a8584a9e09ebdc0c, type: 3}
+  - {fileID: 21300000, guid: 7b1de06df2885f644b362d530685fdc2, type: 3}
+  - {fileID: 21300000, guid: 8ccdc12f6b4cfe24c99be54baa34ef70, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Hack2
+  - Hack3
+  - Hack1
+  - Hack4
+  m_RenderDataMap: {}
+  m_Tag: Hack Atlas
+  m_IsVariant: 0
