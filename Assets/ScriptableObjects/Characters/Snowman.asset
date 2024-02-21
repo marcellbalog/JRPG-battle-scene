@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eecccbb526d3bfd43862a2716559ce8d, type: 3}
+  m_Name: Snowman
+  m_EditorClassIdentifier: 
+  Level: 1
+  Initiative: 4
+  CurrentTick: 0
+  LastTick: 0
+  EntityObject: {fileID: 0}
+  entityScript: {fileID: 0}
+  EntityAnimator: {fileID: 0}
+  ID: c02
+  allyScript: {fileID: 0}
+  Image: {fileID: 0}
+  Attackpoint: {fileID: 0}
+  member: 1
+  name: Snowman
+  cur_xp: 0
+  new_xp: 0
+  max_health: 120
+  max_energy: 10
+  power: 2
+  luck: 1
+  cur_health: 120
+  cur_energy: 10
+  isCorrupted: 0
+  synkmeter: 0
+  abilities:
+  - {fileID: 11400000, guid: bf426707e3295b94f96ad2a247fe1d90, type: 2}
+  - {fileID: 11400000, guid: 395374ed476f9d441a6870851251e44e, type: 2}
+  - {fileID: 11400000, guid: f032cdd61659cd14eb437bec89c81497, type: 2}
+  selectedAbility: {fileID: 0}
+  selectedAction: {fileID: 0}

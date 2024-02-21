@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eecccbb526d3bfd43862a2716559ce8d, type: 3}
+  m_Name: Gingerbread
+  m_EditorClassIdentifier: 
+  Level: 1
+  Initiative: 5
+  CurrentTick: 0
+  LastTick: 0
+  EntityObject: {fileID: 0}
+  entityScript: {fileID: 0}
+  EntityAnimator: {fileID: 0}
+  ID: c05
+  allyScript: {fileID: 0}
+  Image: {fileID: 0}
+  Attackpoint: {fileID: 0}
+  member: 4
+  name: Gingerbread
+  cur_xp: 0
+  new_xp: 0
+  max_health: 140
+  max_energy: 20
+  power: 1
+  luck: 2
+  cur_health: 140
+  cur_energy: 20
+  isCorrupted: 0
+  synkmeter: 0
+  abilities:
+  - {fileID: 11400000, guid: 2f1457ded9b5d0e4d87d6885e6e148f3, type: 2}
+  - {fileID: 11400000, guid: 0472e6e21cef23f499b001957d9de091, type: 2}
+  - {fileID: 11400000, guid: b4ce239bd5fae1a45a09396b9b9c87c7, type: 2}
+  selectedAbility: {fileID: 0}
+  selectedAction: {fileID: 0}
