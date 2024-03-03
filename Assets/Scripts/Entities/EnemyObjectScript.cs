@@ -30,7 +30,6 @@ namespace ChristmasBattle
 		{
 			GetComponent<Animator>().Play("EnemyDamage");
 			MediaManager.PlaySound(MediaManager.Sound.Enemy_damage);
-			print("enemy damaged");
 		}
 
         public override void ReturnToIdle()

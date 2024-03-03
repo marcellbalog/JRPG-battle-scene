@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ChristmasBattle
 {
 	[System.Serializable]
-	public abstract class BattleEntity
+	public abstract class BattleEntity : ScriptableObject
 	{
 		public int Level;
 		public int Initiative;

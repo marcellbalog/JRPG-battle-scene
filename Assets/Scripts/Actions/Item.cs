@@ -27,7 +27,7 @@ namespace ChristmasBattle
         {
             Debug.Log("Use item - " + name);
             targets = Targets;
-            Inventory.S.DepleteItem(this);
+            Inventory.instance.DepleteItem(this);
 
             switch (itemEffect)
             {
@@ -41,7 +41,7 @@ namespace ChristmasBattle
                     break;
             }
 
-            BattleManager.S.UpdateStats();
+            BattleManager.instance.UpdateStats();
         }
 
         void Heal()

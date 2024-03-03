@@ -23,7 +23,7 @@ namespace ChristmasBattle
         {
             FindTargets();
 
-            foreach (var e in BattleManager.S.BattleEntities)
+            foreach (var e in BattleManager.instance.BattleEntities)
             {
                 e.entityScript.SetTargetable(false);
             }
@@ -36,27 +36,24 @@ namespace ChristmasBattle
 
         public void FindTargets()
         {
-            //if (targetOptions.Count > 0)
-            //    return targetOptions;
-
             List<BattleEntity> newTargetOptions = new List<BattleEntity>();
 
             if (selfonly)
             {
-                newTargetOptions.Add(BattleManager.S.currentChar);
+                newTargetOptions.Add(BattleManager.instance.currentChar);
             }
             else
             {
                 switch (targetGroup)
                 {
                     case TargetGroup.ally_only:
-                        newTargetOptions.AddRange(BattleManager.S.activeChars.ToList());
+                        newTargetOptions.AddRange(BattleManager.instance.activeChars.ToList());
                         break;
                     case TargetGroup.enemy_only:
-                        newTargetOptions.AddRange(BattleManager.S.Enemies);
+                        newTargetOptions.AddRange(BattleManager.instance.Enemies);
                         break;
                     case TargetGroup.any:
-                        newTargetOptions.AddRange(BattleManager.S.BattleEntities);
+                        newTargetOptions.AddRange(BattleManager.instance.BattleEntities);
                         break;
                     default:
                         break;
@@ -73,11 +70,11 @@ namespace ChristmasBattle
             {
                 if (targetGroup == TargetGroup.enemy_only)
                 {
-                    targets.AddRange(BattleManager.S.Enemies);
+                    targets.AddRange(BattleManager.instance.Enemies);
                 }
                 if (targetGroup == TargetGroup.ally_only)
                 {
-                    targets.AddRange(BattleManager.S.activeChars);                    
+                    targets.AddRange(BattleManager.instance.activeChars);                    
                 }
             } else
             {
@@ -85,10 +82,10 @@ namespace ChristmasBattle
             }
             
 
-            if (BattleManager.S.currentChar.selectedAction is Item)
+            if (BattleManager.instance.currentChar.selectedAction is Item)
                 UseItem(targets);
-            else if (BattleManager.S.currentChar.selectedAction is Ability)
-                BattleManager.S.PrepareAttackEnemy(!multitarget ? target.gameObject : null);
+            else if (BattleManager.instance.currentChar.selectedAction is Ability)
+                BattleManager.instance.PrepareAttackEnemy(!multitarget ? target.gameObject : null);
 
             //^^^^ EZT LEHET HOGY A CHILD CLASSOKBA KÉNE SZEDNI, MERT AZ ITEM/ABILITY KÖZÖTT IS KÜLÖNBSÉGET KELL TENNI
         }

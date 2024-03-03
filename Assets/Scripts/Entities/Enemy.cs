@@ -8,48 +8,50 @@ using UnityEngine.UI;
 
 namespace ChristmasBattle
 {
-	[System.Serializable]
+	[CreateAssetMenu]
 	public class Enemy : BattleEntity
 	{
-		public GameObject enemyObject { get; set; }
+		public GameObject EnemyObject {		
+			get { return EntityObject; }
+			set { EntityObject = value; }
+		}
 		public Sprite Image { get; set; }
-		public EnemyObjectScript enemyScript { get; set; }
-		//public string ID { get; set; }
-		public string NameText;
-		public DataHolder.EnemyName Name;
-		//public int Level;
-		public int max_Health;
-		public int cur_Health;
-		public int Power;
-		//public int Initiative;
+		public string nameText;
+		private EnemyObjectScript enemyScript { get; set; }		
+		private DataHolder.EnemyName Name; 
+		private int max_Health;
+		private int cur_Health;
+		public int power;
 
 		public bool isDead { get; set; }
 
 		public Enemy(Enemy e) {			
-			NameText = e.NameText;
+			nameText = e.nameText;
 			Level = e.Level;
 			cur_Health = e.max_Health;
 			max_Health = e.cur_Health;
-			Power = e.Power;
+			power = e.power;
 			Initiative = e.Initiative;
 
-			Enum.TryParse(NameText, out Name);
-			Image = DataHolder.S.GetEnemyImage(Name);
+			Enum.TryParse(nameText, out Name);
+			Image = DataHolder.instance.GetEnemyImage(Name);
 
 			//base.Setup();
 		}
+
         public override void Setup()
         {
 			base.Setup();
 			enemyScript = EntityObject.transform.GetComponent<EnemyObjectScript>();
 			enemyScript.thisEntity = this;
+			enemyScript.SetImage(this);			
 		}
 
 		public override void LoseHealth(int x) {
 			cur_Health -= x;
 			if (cur_Health < 0) {
 				isDead = true;
-				BattleManager.S.RemoveEnemy(this);
+				BattleManager.instance.RemoveEnemy(this);
 			}			
 		}
 

@@ -9,62 +9,52 @@ using static ChristmasBattle.TeamManager;
 
 namespace ChristmasBattle
 {
-	[System.Serializable]
+	[CreateAssetMenu]
 	public class Ally : BattleEntity
 	{
 		public AllyObjectScript allyScript;
-		//public GameObject Marker;
-		public Image Image;
-		public Transform Attackpoint;
-		Member member;
+		public Image Image;	//
+		private Transform Attackpoint;
+		public Member member;
 		public string name;
 
-		//public int Level;		
-		public int cur_xp;
-		public int new_xp;
+		private int cur_xp;
+		private int new_xp;
 
 		public int max_health;
 		public int max_energy;
 		public int power;
 		public int luck;
-		//public int initiative;
 
 		public int cur_health;
 		public int cur_energy;
-		public bool isCorrupted;
-		public int synkmeter;
+		public bool isCorrupted;		
 
-		//public List<cAbility> cabilities = new List<cAbility>();
-		//public cAbility cSelectedAbility;
 		public List<Ability> abilities = new List<Ability>();
 		public Ability selectedAbility;
 		public Action selectedAction;
 
 
-		public Ally(GameObject thisChar, Member m)
-		{
-			EntityObject = thisChar;			
-			member = m;			
-			Attackpoint = thisChar.transform.Find("attackpoint");
+        public override void Setup()
+        {
+            base.Setup();
+			allyScript = EntityObject.GetComponent<AllyObjectScript>();
+			allyScript.thisEntity = this;
 
-			for (int i = 0; i < thisChar.transform.childCount; i++)
+			Attackpoint = EntityObject.transform.Find("attackpoint");
+
+			for (int i = 0; i < EntityObject.transform.childCount; i++)
 			{
-				Attackpoint = thisChar.transform.GetChild(i).Find("attackpoint");
+				Attackpoint = EntityObject.transform.GetChild(i).Find("attackpoint");
 				if (Attackpoint != null)
 					break;
 			}
 
-			Setup();
+			cur_health = max_health;
+			cur_energy = max_energy;
 		}
 
-        public override void Setup()
-        {
-            base.Setup();
-			allyScript = EntityObject.transform.GetComponent<AllyObjectScript>();
-			allyScript.thisEntity = this;
-		}
-
-        public GameObject GetCharacter()
+        public GameObject GetCharacterObject()
 		{
 			return EntityObject;
 		}
@@ -138,8 +128,7 @@ namespace ChristmasBattle
 
 		public override void Heal(float amount)
 		{
-			cur_health += Mathf.RoundToInt(max_health * amount);
-			Debug.Log(max_health * amount + "  " + amount);
+			cur_health += Mathf.RoundToInt(max_health * amount);			
 			if (cur_health > max_health)
 			{
 				cur_health = max_health;
@@ -154,8 +143,7 @@ namespace ChristmasBattle
 			else
 				cur_health = max_health / 50;
 
-			allyScript.CureCorruption(ID);
-			
+			allyScript.CureCorruption(ID);			
 		}
 
 		public void ConsumeEnergy(int amount)

@@ -8,19 +8,21 @@ using UnityEngine.UI;
 
 namespace ChristmasBattle
 {
+
     public class AllyObjectScript : BattleEntityObjectScript
     {
-        public override void PlayDamageAnimAndSound()
+		public TeamManager.Member member;
+
+		public override void PlayDamageAnimAndSound()
         {
             GetComponent<Animator>().Play("AllyDamage");
-            print("enemy damaged");
         }
 
         public void GetCorrupted(string ID)
         {
             MediaManager.PlayEffect(MediaManager.Effect.Corrupted, transform.position);
 
-            foreach (Transform child in BattleManager.S.QueuePanel.transform)
+            foreach (Transform child in BattleManager.instance.QueuePanel.transform)
             {
                 if (child.name == ID)
                     child.transform.GetComponent<Image>().color = new Color32(188, 70, 70, 255);
@@ -29,7 +31,7 @@ namespace ChristmasBattle
 
         public void CureCorruption(string ID)
         {
-            foreach (Transform child in BattleManager.S.QueuePanel.transform)
+            foreach (Transform child in BattleManager.instance.QueuePanel.transform)
             {
                 if (child.name == ID)
                     child.transform.GetComponent<Image>().color = new Color32(255, 255, 255, 255);

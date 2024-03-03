@@ -1,12 +1,15 @@
-using System.Collections;
+using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ChristmasBattle
 {
 	public class BattleEntityAnimator : MonoBehaviour
 	{
+		private IAttackStrategy attackStrategy;
+
 		Vector3 BasePosition;
 		bool isAlly = true;
 		Enemy enemyTarget;
@@ -16,18 +19,14 @@ namespace ChristmasBattle
 		BattleEntity entityTarget;
 		List<BattleEntity> entityTargets = new List<BattleEntity>();
 
-		bool isAttack = false;
-		bool attackEnded = false; //true, amikor vége az attacknak, hagy idõt, hogy lemenjen egy cooldown utána
 		Transform attackTarget;
 		List<Transform> attackTargets = new List<Transform>();
 
-		//public enum AttackType { punch, shoot, hack, slash, chainShoot, bigPunch }
 		AttackType activeAttack;
 		
 		public GameObject Bullet;
 		GameObject activeBullet;
-
-		float timer;
+		
 		int damage;
 
 		public GameObject TextHolder;
@@ -41,175 +40,15 @@ namespace ChristmasBattle
 		private void Start()
 		{
 			isAlly = CompareTag("Ally");
-			TextHolder = BattleManager.S.TextHolder;
-			DamageText = BattleManager.S.DamageText;
+			TextHolder = BattleManager.instance.TextHolder;
+			DamageText = BattleManager.instance.DamageText;
 		}
 
 		private void Update()
 		{
-
-			if (timer > 0)
-				timer -= Time.deltaTime;
-
-			if (isAttack)
-			{
-				if (timer > 0)
-					return;
-
-				switch (activeAttack)
-				{
-					case AttackType.Punch:
-						transform.position = Vector3.MoveTowards(transform.position, attackTarget.position, 60 * Time.deltaTime);
-						if (transform.position == attackTarget.position)
-						{
-							isAttack = false;
-							transform.position = BasePosition;
-							ShowDamageNumbers();
-							MediaManager.PlayEffect(MediaManager.Effect.BasicDamage, attackTarget.position);
-
-							attackEnded = true;
-							timer = 1;
-							entityTarget.entityScript.PlayDamageAnimAndSound();
-							entityTarget.LoseHealth(damage);
-							BattleManager.S.currentEntity.entityScript.ReturnToIdle();
-							
-						}
-						break;
-					case AttackType.Shoot:
-
-						if (activeBullet == null)
-						{
-							Vector3 shootPostition = transform.position;
-							if (isAlly) shootPostition = BattleManager.S.currentChar.FindAttackPoint();
-
-
-							activeBullet = Instantiate(Bullet, transform);
-							activeBullet.transform.position = shootPostition;
-							MediaManager.PlaySound(MediaManager.Sound.Snowman_A1);
-							MediaManager.PlayEffect(MediaManager.Effect.Shot, shootPostition);
-							activeBullet.transform.right = attackTarget.transform.position - shootPostition;
-						}
-
-						activeBullet.transform.position = Vector3.MoveTowards(activeBullet.transform.position, attackTarget.position, 50 * Time.deltaTime);
-
-						if (activeBullet.transform.position == attackTarget.position)
-						{
-							isAttack = false;
-							Destroy(activeBullet.gameObject);
-							ShowDamageNumbers();
-							MediaManager.PlayEffect(MediaManager.Effect.BasicDamage, attackTarget.position);
-
-							attackEnded = true;
-							timer = 1;
-							entityTarget.entityScript.PlayDamageAnimAndSound();
-							entityTarget.LoseHealth(damage);
-							BattleManager.S.currentEntity.entityScript.ReturnToIdle();
-							
-						}
-						break;
-					case AttackType.Magic:
-
-						isAttack = false;
-						ShowDamageNumbers();
-
-						attackEnded = true;
-						timer = 1;
-						entityTarget.entityScript.PlayDamageAnimAndSound();
-						entityTarget.LoseHealth(damage);
-						BattleManager.S.currentEntity.entityScript.ReturnToIdle();
-
-						break;
-					case AttackType.Slowhit:
-						transform.position = Vector3.MoveTowards(transform.position, attackTarget.position, 30 * Time.deltaTime);
-						if (transform.position == attackTarget.position)
-						{
-							isAttack = false;
-							transform.position = BasePosition;
-							ShowDamageNumbers();
-							MediaManager.PlayEffect(MediaManager.Effect.BasicDamage, attackTarget.position);
-
-							attackEnded = true;
-							timer = 1;
-							entityTarget.entityScript.PlayDamageAnimAndSound();
-							entityTarget.LoseHealth(damage);
-							BattleManager.S.currentEntity.entityScript.ReturnToIdle();
-							
-						}
-						break;
-					case AttackType.ChainShoot:
-
-						attackTarget = enemyTargets[0].enemyObject.transform;
-
-						if (activeBullet == null)
-						{
-							Vector3 shootPostition = transform.position;
-							if (isAlly) shootPostition = BattleManager.S.currentChar.FindAttackPoint();
-
-							activeBullet = Instantiate(Bullet, transform);
-							activeBullet.transform.position = shootPostition;
-							MediaManager.PlaySound(MediaManager.Sound.Snowman_A1);
-							MediaManager.PlayEffect(MediaManager.Effect.Shot, shootPostition);
-							activeBullet.transform.right = attackTarget.transform.position - shootPostition;
-						}
-
-						activeBullet.transform.position = Vector3.MoveTowards(activeBullet.transform.position, attackTarget.position, 50 * Time.deltaTime);
-
-						if (activeBullet.transform.position == attackTarget.position)
-						{
-							Destroy(activeBullet.gameObject);
-							ShowDamageNumbers();
-							MediaManager.PlayEffect(MediaManager.Effect.BasicDamage, attackTarget.position);
-							enemyTargets[0].LoseHealth(damage);
-							enemyTargets[0].entityScript.PlayDamageAnimAndSound();
-
-
-							if (enemyTargets.Count > 1)
-							{
-								enemyTargets.RemoveAt(0);
-								attackTarget = enemyTargets[0].enemyObject.transform;
-							}
-							else
-							{
-								isAttack = false;
-								attackEnded = true;
-								timer = 1;
-
-								BattleManager.S.currentEntity.entityScript.ReturnToIdle();
-							}
-						}
-						break;
-					case AttackType.BigPunch:
-						transform.position = Vector3.MoveTowards(transform.position, attackTarget.position, 60 * Time.deltaTime);
-						if (transform.position == attackTarget.position)
-						{
-							isAttack = false;
-							transform.position = BasePosition;
-							ShowDamageNumbers();
-							MediaManager.PlayEffect(MediaManager.Effect.RudolfBigPunch, attackTarget.position);
-							//MediaManager.PlayEffect(MediaManager.Effect.BasicDamage, attackTarget.position);
-
-							attackEnded = true;
-							timer = 1;
-							entityTarget.entityScript.PlayDamageAnimAndSound();
-							entityTarget.LoseHealth(damage);
-							BattleManager.S.currentEntity.entityScript.ReturnToIdle();
-							
-						}
-						break;
-				}
-			}
-
 			if (isSwitching)
 			{
 				transform.position = Vector3.MoveTowards(transform.position, SwitchPoint, 20 * Time.deltaTime);
-			}
-
-			if (attackEnded)
-			{
-				//if (timer > 0)
-				//	return;
-				BattleManager.S.EndEntityTurn();
-				attackEnded = false;
 			}
 		}
 
@@ -217,64 +56,86 @@ namespace ChristmasBattle
 		{
 			BasePosition = transform.position;
 			activeAttack = at;
-			isAttack = true;
 			damage = pow;
 			if (isAlly)
 			{
 				transform.GetChild(3).gameObject.SetActive(true);
 			}
 
-			if (castTime != 0)
-				timer = castTime;
+			UnityAction delayedAttack = ExecuteAttack;
+			Invoke(delayedAttack.Method.Name, castTime);				
+		}
 
-			print(at.ToString());
+		private void ExecuteAttack()
+		{
+			print("attack invoke called");
+
+			var attackContext = new AttackContext
+			{
+				battleEntityAnimator = this,
+				transform = transform,
+				attackTarget = attackTarget,
+				entityTarget = entityTarget,
+				Bullet = Bullet,
+				activeBullet = activeBullet,
+				damage = damage,
+				enemyTargets = enemyTargets,
+				isAlly = isAlly,
+				BasePosition = BasePosition,
+
+			};
 
 			switch (activeAttack)
 			{
 				case AttackType.Punch:
-					MediaManager.PlaySound(MediaManager.Sound.Rudolf_A1);
+					attackStrategy = new PunchAttackStrategy();
 					break;
-				case AttackType.Shoot:
+				case AttackType.Shoot:					
+					attackStrategy = new ShootAttackStrategy();									
 					break;
 				case AttackType.Magic:
-					MediaManager.PlaySound(MediaManager.Sound.Santa_A1);
-					MediaManager.PlayEffect(MediaManager.Effect.Magic, transform.position);
+					attackStrategy = new MagicAttackStrategy();
 					break;
 				case AttackType.Slowhit:
-					MediaManager.PlaySound(MediaManager.Sound.Elf_A1);
+					attackStrategy = new SlowHitAttackStrategy();
+					break;
+				case AttackType.ChainShoot:
+					attackStrategy = new ChainShootAttackStrategy();
+					break;
+				case AttackType.BigPunch:
+					attackStrategy = new BigPunchAttackStrategy();
 					break;
 			}
+
+			attackStrategy.ExecuteAttack(attackContext);
 		}
+
 
 		public void GetEnemyTarget(Enemy e)
 		{
 			enemyTarget = e;
-			attackTarget = e.enemyObject.transform;
+			attackTarget = e.EnemyObject.transform;
 			entityTarget = e;
 		}
 
 		public void GetEnemyTarget(List<Enemy> e)
 		{
 			enemyTargets = new List<Enemy>(e);
-			print("targets: " + enemyTargets.Count);
 			enemyTargets.RemoveAll(x => x.isDead);
-			print("targets: " + enemyTargets.Count);
-			//attackTarget = e.enemyObject.transform;			
 			entityTargets = e.ConvertAll(x => (BattleEntity)x); ;
 		}
 
-		public void GetAllyTarget(Ally c)
+		public void GetAllyTarget(Ally a)
 		{
-			allyTarget = c;
-			attackTarget = c.EntityObject.transform;
-			entityTarget = c;
+			allyTarget = a;
+			attackTarget = a.EntityObject.transform;
+			entityTarget = a;
 		}
 
-		public void GetAllyTarget(List<Ally> c)
+		public void GetAllyTarget(List<Ally> a)
 		{
-			allyTargets = c;
-			//attackTargets = c.EntityObject.transform;
-			entityTargets = c.ConvertAll(x => (BattleEntity)x);
+			allyTargets = a;
+			entityTargets = a.ConvertAll(x => (BattleEntity)x);
 		}
 
 		public void GetEntityTarget(BattleEntity e)
@@ -286,12 +147,11 @@ namespace ChristmasBattle
         }
 
 
-		void ShowDamageNumbers()
+		public void ShowDamageNumbers()
 		{
 
 			var t = Instantiate(DamageText, TextHolder.transform);
 			t.GetComponent<RectTransform>().anchoredPosition = attackTarget.position;
-			print(t.GetComponent<RectTransform>().anchoredPosition + " " + attackTarget.position);
 			t.transform.GetChild(0).GetComponent<TextMeshPro>().text = damage + "";
 			Destroy(t, 2);
 		}

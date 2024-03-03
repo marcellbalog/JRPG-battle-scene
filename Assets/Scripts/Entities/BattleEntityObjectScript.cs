@@ -14,7 +14,7 @@ namespace ChristmasBattle
         public GameObject Marker;
         public Animator Anim;
 
-        public bool isTargetable = false;
+        private bool _isTargetable = false;
 
         private void Start()
         {
@@ -31,14 +31,13 @@ namespace ChristmasBattle
         public void SetTargetable(bool setTo)
         {
             SetMarkerVisible(setTo);
-            isTargetable = setTo;
+            _isTargetable = setTo;
             if (!setTo)
                 Anim.SetBool("hover", false);
         }
 
         public void AnimateMarker(bool on = true)
         {
-            Debug.Log("marker animated");
             Anim.SetBool("hover", on);            
         }
 
@@ -52,14 +51,13 @@ namespace ChristmasBattle
 
         protected virtual void OnMouseEnter()
         {
-            if (!isTargetable)
+            if (!_isTargetable)
                 return;
-            print("mouse on entity");
             AnimateMarker();
-            if (BattleManager.S.currentChar.selectedAction.multitarget)
-                AnimateMarkers(BattleManager.S.currentChar.selectedAction.targetOptions);
+            if (BattleManager.instance.currentChar.selectedAction.multitarget)
+                AnimateMarkers(BattleManager.instance.currentChar.selectedAction.targetOptions);
 
-            foreach (Transform item in BattleManager.S.QueuePanel.transform)
+            foreach (Transform item in BattleManager.instance.QueuePanel.transform)
             {
                 if (item.GetSiblingIndex() < 8 && item.name == thisEntity.ID)
                     item.transform.GetChild(1).gameObject.SetActive(true);
@@ -68,17 +66,17 @@ namespace ChristmasBattle
 
         private void OnMouseExit()
         {
-            if (!isTargetable)
+            if (!_isTargetable)
                 return;
             AnimateMarker(false);
 
-            //ha multitarget az ability
-            if (BattleManager.S.currentChar == null || BattleManager.S.currentChar.selectedAction == null)
+            // If the ability is multitarget
+            if (BattleManager.instance.currentChar == null || BattleManager.instance.currentChar.selectedAction == null)
                 return;
-            if (BattleManager.S.currentChar.selectedAction.multitarget)
-                AnimateMarkers(BattleManager.S.currentChar.selectedAction.targetOptions, false);
+            if (BattleManager.instance.currentChar.selectedAction.multitarget)
+                AnimateMarkers(BattleManager.instance.currentChar.selectedAction.targetOptions, false);
             
-            foreach (Transform q in BattleManager.S.QueuePanel.transform)
+            foreach (Transform q in BattleManager.instance.QueuePanel.transform)
             {
                 if (q.name == thisEntity.ID)
                     q.transform.GetChild(1).gameObject.SetActive(false);
@@ -87,10 +85,10 @@ namespace ChristmasBattle
 
         private void OnMouseDown()
         {
-            if (!isTargetable)
+            if (!_isTargetable)
                 return;
 
-            BattleManager.S.currentChar.selectedAction.UseOnTarget(this);
+            BattleManager.instance.currentChar.selectedAction.UseOnTarget(this);
         }
 
         public abstract void PlayDamageAnimAndSound();
